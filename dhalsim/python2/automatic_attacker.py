@@ -3,11 +3,13 @@ import os
 import signal
 import subprocess
 import sys
+import time
 from dhalsim.py3_logger import get_logger
 from pathlib import Path
 
 from automatic_node import NodeControl
-
+import functools
+print = functools.partial(print, flush=True)
 
 class Error(Exception):
     """Base class for exceptions in this module."""
@@ -54,8 +56,11 @@ class AttackerControl(NodeControl):
 
         self.attacker_process = self.start_attack()
 
-        while self.attacker_process.poll() is None:
-            pass
+        try:
+            while self.attacker_process.poll() is None:
+                time.sleep(0.1)
+        except BrokenPipeError as e:
+            print(f"[automatic_attacker] BrokenPipeError during attack monitoring: {e}", flush=True)
 
         self.terminate()
 
@@ -93,6 +98,7 @@ class AttackerControl(NodeControl):
             raise NoSuchAttack("Attack {attack} does not exists.".format(attack=self.this_attacker_data['type']))
 
         cmd = ["python3", str(generic_plc_path), str(self.intermediate_yaml), str(self.attacker_index)]
+        time.sleep(1)
 
         plc_process = subprocess.Popen(cmd, shell=False, stderr=sys.stderr, stdout=sys.stdout)
         return plc_process
