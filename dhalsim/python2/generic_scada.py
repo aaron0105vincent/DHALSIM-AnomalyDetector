@@ -17,6 +17,9 @@ from dhalsim import py3_logger
 import threading
 import pandas as pd
 
+import functools
+print = functools.partial(print, flush=True)
+
 
 class Error(Exception):
     """Base class for exceptions in this module."""
@@ -180,7 +183,7 @@ class GenericScada(BasePLC):
         :param sleep:  (Default value = 0.5) The time to sleep after setting everything up
         """
         self.logger.debug('SCADA enters pre_loop')
-        self.db_sleep_time = random.uniform(0.01, 0.1)
+        self.db_sleep_time = random.uniform(0.1, 0.2)
 
         signal.signal(signal.SIGINT, self.sigint_handler)
         signal.signal(signal.SIGTERM, self.sigint_handler)
@@ -205,7 +208,8 @@ class GenericScada(BasePLC):
         """
         for i in range(self.DB_TRIES):
             try:
-                with sqlite3.connect(self.intermediate_yaml["db_path"]) as conn:
+                with sqlite3.connect(self.intermediate_yaml["db_path"], timeout = 30.0) as conn:
+                    conn.execute("PRAGMA journal_mode=WAL;")
                     cur = conn.cursor()
                     if parameters:
                         cur.execute(query, parameters)
@@ -366,7 +370,7 @@ class GenericScada(BasePLC):
             self.set_sync(1)
 
             while not self.get_sync(2):
-                pass
+                time.sleep(0.001)
 
             if not self.plcs_ready:
                 self.plcs_ready = True

@@ -19,7 +19,9 @@ class DatabaseInitializer:
         self.logger.info("Initializing database.")
 
     def write(self):
-        with sqlite3.connect(self.db_path) as conn:
+        with sqlite3.connect(self.db_path, timeout=30.0) as conn:
+            conn.execute("PRAGMA journal_mode=WAL;")
+            conn.commit()
             cur = conn.cursor()
 
             cur.execute("""CREATE TABLE plant
