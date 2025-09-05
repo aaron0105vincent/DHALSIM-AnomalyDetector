@@ -1,0 +1,125 @@
+inp_file: anytown_map.inp
+output_path: output
+# Extended simulation combining duration1 and duration2 tests
+# Covers attacks from 5 minutes to 9 hours duration
+# 200 iterations preparation + attacks + 100 iteration gaps between attacks
+iterations: 1200
+network_topology_type: complex
+plcs: !include anytown_plcs.yaml
+
+simulator: epynet
+demand: pdd
+# log_level: debug
+demand_patterns: demands_anytown_small.csv
+attacks: 
+  network_attacks:
+    # 200 iterations preparation before first attack
+    # Short duration attacks (from duration1)
+    - name: plc1_dos_attack_5m
+      target: PLC1
+      trigger:
+        type: time
+        start: 200
+        end: 201
+      type: simple_dos
+      direction: destination
+    
+    # 100 iteration gap + 30-minute attack (6 iterations)
+    - name: plc1_dos_attack_30m
+      target: PLC1
+      trigger:
+        type: time
+        start: 301
+        end: 307
+      type: simple_dos
+      direction: destination
+    
+    # 100 iteration gap + 1-hour attack (12 iterations)
+    - name: plc1_dos_attack_1hr
+      target: PLC1
+      trigger:
+        type: time
+        start: 407
+        end: 419
+      type: simple_dos
+      direction: destination
+    
+    # 100 iteration gap + 2-hour attack (24 iterations)
+    - name: plc1_dos_attack_2hr
+      target: PLC1
+      trigger:
+        type: time
+        start: 519
+        end: 543
+      type: simple_dos
+      direction: destination
+    
+    # 100 iteration gap + 3-hour attack (36 iterations)
+    - name: plc1_dos_attack_3hr
+      target: PLC1
+      trigger:
+        type: time
+        start: 643
+        end: 679
+      type: simple_dos
+      direction: destination
+    
+    # 100 iteration gap + 4-hour attack (48 iterations)
+    - name: plc1_dos_attack_4hr
+      target: PLC1
+      trigger:
+        type: time
+        start: 779
+        end: 827
+      type: simple_dos
+      direction: destination
+    
+    # 100 iteration gap + 5-hour attack (60 iterations)
+    - name: plc1_dos_attack_5hr
+      target: PLC1
+      trigger:
+        type: time
+        start: 927
+        end: 987
+      type: simple_dos
+      direction: destination
+    
+    # # 100 iteration gap + 6-hour attack (72 iterations)
+    # - name: plc1_dos_attack_6hr
+    #   target: PLC1
+    #   trigger:
+    #     type: time
+    #     start: 1087
+    #     end: 1159
+    #   type: simple_dos
+    #   direction: destination
+    
+    # # 100 iteration gap + 7-hour attack (84 iterations)
+    # - name: plc1_dos_attack_7hr
+    #   target: PLC1
+    #   trigger:
+    #     type: time
+    #     start: 1259
+    #     end: 1343
+    #   type: simple_dos
+    #   direction: destination
+    
+    # # 100 iteration gap + 8-hour attack (96 iterations)
+    # - name: plc1_dos_attack_8hr
+    #   target: PLC1
+    #   trigger:
+    #     type: time
+    #     start: 1443
+    #     end: 1539
+    #   type: simple_dos
+    #   direction: destination
+    
+    # # 100 iteration gap + 9-hour attack (108 iterations)
+    # - name: plc1_dos_attack_9hr
+    #   target: PLC1
+    #   trigger:
+    #     type: time
+    #     start: 1639
+    #     end: 1747
+    #   type: simple_dos
+    #   direction: destination

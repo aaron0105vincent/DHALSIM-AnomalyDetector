@@ -23,45 +23,75 @@ while getopts ":dt" opt; do
   esac
 done
 
-sleep 3
+echo "Starting DHALSIM installation..."
+sleep 1
 
-# Update apt
+# ============================================================================
+# System Update and Base Dependencies
+# ============================================================================
+echo "Updating system packages..."
 sudo apt update
 
-# Installing necessary packages
+echo "Installing base dependencies..."
 sudo apt install -y git python3 python3-pip curl
+
+echo "Installing cpppo..."
 sudo python3 -m pip install cpppo
 
-# MiniCPS
-cd ~
-git clone --depth 1 https://github.com/scy-phy/minicps.git || git -C minicps pull
-cd minicps
-sudo python3 -m pip install .
-
-# epynet - An EPANET Python wrapper for WNTR
-cd ~
-git clone --depth 1 https://github.com/afmurillo/DHALSIM-epynet || git -C DHALSIM-epynet pull
-cd DHALSIM-epynet/
-sudo python3 -m pip install .
-
-# Mininet from source
+# ============================================================================
+# Install Mininet
+# ============================================================================
+echo "Installing Mininet..."
 cd ~
 git clone --depth 1 -b 2.3.1b4 https://github.com/mininet/mininet.git || git -C mininet pull
 cd mininet
 sudo PYTHON=python3 ./util/install.sh -fnv
 
-# Installing testing pip dependencies
-if [ "$test" = true ]
-then
-  sudo python3 -m pip install pytest-timeout
-  sudo python3 -m pip install pytest-cov
-  sudo python3 -m pip install pytest-mock
+# ============================================================================
+# Install MiniCPS
+# ============================================================================
+echo "Installing MiniCPS..."
+cd ~
+git clone https://github.com/scy-phy/minicps.git
+cd minicps
+git checkout 94145cecaa692955db299238794d0d8c5637273a
+sudo python3 -m pip install .
+if [ $? -ne 0 ]; then
+    echo "ERROR: MiniCPS installation failed!" >&2
+    exit 1
 fi
 
-# Install netfilterqueue for Simple DoS attacks
+# ============================================================================
+# Install epynet - An EPANET Python wrapper for WNTR
+# ============================================================================
+echo "Installing epynet..."
+cd ~
+if [ ! -d "DHALSIM-epynet" ]; then
+    git clone --depth 1 https://github.com/afmurillo/DHALSIM-epynet
+else
+    echo "DHALSIM-epynet directory exists, updating..."
+    git -C DHALSIM-epynet pull
+fi
+cd DHALSIM-epynet/
+sudo python3 -m pip install .
+
+
+# ============================================================================
+# Install Optional Testing Dependencies
+# ============================================================================
+if [ "$TEST" = true ]; then
+    echo "Installing testing dependencies..."
+    sudo python3 -m pip install pytest-timeout pytest-cov pytest-mock
+fi
+
+# ============================================================================
+# Install NetfilterQueue for DoS Attacks
+# ============================================================================
+echo "Installing netfilterqueue for DoS attack support..."
 sudo apt install -y libnfnetlink-dev libnetfilter-queue-dev
 sudo python3 -m pip install -U git+https://github.com/kti/python-netfilterqueue
 
+# ============================================================================
 # Install DHALSIM
 cd "${cwd}" || { printf "Failure: Could not find DHALSIM directory\n"; exit 1; }
 

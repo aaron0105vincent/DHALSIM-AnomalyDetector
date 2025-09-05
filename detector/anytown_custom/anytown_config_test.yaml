@@ -1,0 +1,87 @@
+inp_file: anytown_map.inp
+output_path: output
+iterations: 2880
+network_topology_type: complex
+plcs: !include anytown_plcs.yaml
+
+simulator: epynet
+demand: pdd
+# log_level: debug
+demand_patterns: demands_anytown_small.csv
+attacks: 
+  network_attacks:
+    - name: plc1_dos_attack_1hr
+      target: PLC1
+      trigger:
+        type: time
+        start: 1000
+        end: 1013
+      type: simple_dos
+      direction: destination
+    - name: plc1_dos_attack_3hr
+      target: PLC1
+      trigger:
+        type: time
+        start: 1214
+        end: 1250
+      type: simple_dos
+      direction: destination
+    - name: plc1_dos_attack_6hr
+      target: PLC1
+      trigger:
+        type: time
+        start: 1450
+        end: 1522
+      type: simple_dos
+      direction: destination
+    - name: plc1_dos_attack_12hr
+      target: PLC1
+      trigger:
+        type: time
+        start: 1622
+        end: 1766
+      type: simple_dos
+      direction: destination
+    - name: plc1_mitm_attack
+      type: mitm
+      target: PLC1
+      offset: 7.0
+      trigger:
+        type: time
+        start:  2000
+        end: 2144
+      tag: T41
+    - name: plc2_mitm_attack
+      type: mitm
+      target: PLC1
+      offset: 14.0
+      trigger:
+        type: time
+        start:  2200
+        end: 2400
+      tag: T41
+
+    #   - name: plc1_dos_attack_3hr
+    #   target: PLC1
+    #   trigger:
+    #     type: time
+    #     start: 1514
+    #     end: 1550
+    #   type: simple_dos
+    #   direction: destination
+    # - name: plc1_dos_attack_6hr
+    #   target: PLC1
+    #   trigger:
+    #     type: time
+    #     start: 2050
+    #     end: 2122
+    #   type: simple_dos
+    #   direction: destination
+    # - name: plc1_dos_attack_12hr
+    #   target: PLC1
+    #   trigger:
+    #     type: time
+    #     start: 2622
+    #     end: 2766
+    #   type: simple_dos
+    #   direction: destination

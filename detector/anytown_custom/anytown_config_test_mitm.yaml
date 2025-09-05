@@ -1,0 +1,85 @@
+inp_file: anytown_map.inp
+output_path: output
+# MITM attack duration test configuration
+# Tests MITM attacks from 5 minutes to 5 hours duration
+# 200 iterations preparation + attacks + 100 iteration gaps between attacks
+iterations: 1200
+network_topology_type: complex
+plcs: !include anytown_plcs.yaml
+
+simulator: epynet
+demand: pdd
+# log_level: debug
+demand_patterns: demands_anytown_small.csv
+attacks:
+  network_attacks:
+    # 200 iterations preparation before first attack
+    # Progressive duration MITM attacks
+    - name: plc1_mitm_attack_5m
+      type: naive_mitm
+      target: PLC1
+      offset: 7.0
+      trigger:
+        type: time
+        start: 200
+        end: 201
+    
+    # 100 iteration gap + 30-minute attack (6 iterations)
+    - name: plc1_mitm_attack_30m
+      type: naive_mitm
+      target: PLC1
+      offset: 7.0
+      trigger:
+        type: time
+        start: 301
+        end: 307
+    
+    # 100 iteration gap + 1-hour attack (12 iterations)
+    - name: plc1_mitm_attack_1hr
+      type: naive_mitm
+      target: PLC1
+      offset: 7.0
+      trigger:
+        type: time
+        start: 407
+        end: 419
+    
+    # 100 iteration gap + 2-hour attack (24 iterations)
+    - name: plc1_mitm_attack_2hr
+      type: naive_mitm
+      target: PLC1
+      offset: 7.0
+      trigger:
+        type: time
+        start: 519
+        end: 543
+    
+    # 100 iteration gap + 3-hour attack (36 iterations)
+    - name: plc1_mitm_attack_3hr
+      type: naive_mitm
+      target: PLC1
+      offset: 7.0
+      trigger:
+        type: time
+        start: 643
+        end: 679
+    
+    # 100 iteration gap + 4-hour attack (48 iterations)
+    - name: plc1_mitm_attack_4hr
+      type: naive_mitm
+      target: PLC1
+      offset: 7.0
+      trigger:
+        type: time
+        start: 779
+        end: 827
+    
+    # 100 iteration gap + 5-hour attack (60 iterations)
+    - name: plc1_mitm_attack_5hr
+      type: naive_mitm
+      target: PLC1
+      offset: 7.0
+      trigger:
+        type: time
+        start: 927
+        end: 987

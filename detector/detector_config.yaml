@@ -1,0 +1,92 @@
+# Enhanced Detector Configuration
+# This file contains the network interface, PLC detector mappings, and log monitoring configurations
+
+detectors:
+
+  - interface: "s2-eth2" # check the related interface in the mininet topology file
+    detector_id: "PLC1-Conn" 
+    log_type: "conn" # Available: conn, arp, cip, dns, enip, reporter
+    detector_script: "realtime_network_detector.py"
+    enabled: true
+  
+  - interface: "s3-eth2"
+    detector_id: "PLC2-Conn"
+    log_type: "conn"
+    detector_script: "realtime_network_detector.py"
+    enabled: true
+
+  - interface: "s4-eth2"
+    detector_id: "PLC3-Conn"
+    log_type: "conn" 
+    detector_script: "realtime_network_detector.py"
+    enabled: true
+
+  # - interface: "s2-eth2" 
+  #   detector_id: "PLC1-ARP" 
+  #   log_type: "arp" 
+  #   detector_script: "realtime_network_detector.py"
+  #   enabled: true
+  
+  # - interface: "s3-eth2"
+  #   detector_id: "PLC2-ARP"
+  #   log_type: "arp"
+  #   detector_script: "realtime_network_detector.py"
+  #   enabled: true
+
+  # - interface: "s4-eth2"
+  #   detector_id: "PLC3-ARP"
+  #   log_type: "arp" 
+  #   detector_script: "realtime_network_detector.py"
+  #   enabled: true
+
+  # Example of multiple detectors for same interface with different log types
+  # - interface: "s2-eth2"
+  #   detector_id: "PLC1_x"
+  #   log_type: "x"
+  #   detector_script: "realtime_x_detector.py"
+  #   enabled: false
+  
+  # - interface: "s2-eth2"
+  #   detector_id: "PLC1_x"
+  #   log_type: "x"
+  #   detector_script: "realtime_x_detector.py"
+  #   enabled: false
+
+# Log type configurations
+log_types:
+  conn:
+    description: "Connection logs - TCP/UDP connections"
+    log_file: "conn.log"
+    processor_module: "conn_log_processor"
+    
+  arp:
+    description: "ARP logs - Address Resolution Protocol"
+    log_file: "arp.log"
+    processor_module: "arp_log_processor"
+    
+  cip:
+    description: "CIP logs - Common Industrial Protocol"
+    log_file: "cip.log"
+    processor_module: "cip_log_processor"
+    
+  dns:
+    description: "DNS logs - Domain Name System queries"
+    log_file: "dns.log"
+    processor_module: "dns_log_processor"
+    
+  enip:
+    description: "ENIP logs - EtherNet/IP protocol"
+    log_file: "enip.log"
+    processor_module: "enip_log_processor"
+    
+  reporter:
+    description: "Reporter logs - Zeek error/warning messages"
+    log_file: "reporter.log"
+    processor_module: "reporter_log_processor"
+
+# Additional configuration options
+monitoring:
+  poll_interval: 1.2
+  max_training_iteration: 100
+  window_size: 3
+  log_file_wait_timeout: 60

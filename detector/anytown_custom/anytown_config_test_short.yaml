@@ -1,0 +1,21 @@
+inp_file: anytown_map.inp
+output_path: output
+iterations: 250
+network_topology_type: complex
+plcs: !include anytown_plcs.yaml
+
+simulator: epynet
+demand: pdd
+# log_level: debug
+demand_patterns: demands_anytown_small.csv
+attacks: 
+  network_attacks:
+    - name: plc1_dos_attack_1hr
+      target: PLC1
+      trigger:
+        type: time
+        start: 150
+        end: 200
+      type: simple_dos
+      direction: destination
+    

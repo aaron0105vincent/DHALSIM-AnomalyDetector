@@ -83,3 +83,8 @@ builds/
 # Default DHALSIM output folder
 output/
 logs/
+
+# Anomaly Detector output,logs, and model files
+detector/output/
+detector/logs/
+detector/model/

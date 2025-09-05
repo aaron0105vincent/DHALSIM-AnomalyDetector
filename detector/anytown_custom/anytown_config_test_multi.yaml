@@ -1,0 +1,53 @@
+inp_file: anytown_map.inp
+output_path: output
+iterations: 1400
+network_topology_type: complex
+plcs: !include anytown_plcs.yaml
+
+simulator: epynet
+demand: pdd
+# log_level: debug
+demand_patterns: demands_anytown_small.csv
+# attacks: !include anytown_naive_mitm.yaml
+# attacks: !include anytown_dos.yaml
+attacks: 
+  network_attacks:
+    - name: plc1_dos_attack
+      target: PLC1
+      trigger:
+        type: time
+        start: 800
+        end: 850
+      type: simple_dos
+      direction: destination
+    - name: plc1_mitm_attack
+      type: mitm
+      target: PLC1
+      offset: 7.0
+      trigger:
+        type: time
+        start: 950
+        end: 1000
+      tag: T41
+    - name: plc2_conc_mitm
+      type: concealment_mitm
+      tags: 
+        - tag: T41
+          value: 8.0
+      target: PLC2
+      concealment_data:
+        type: path
+        path: concealment_test.csv
+      trigger:
+        start: 1100
+        end: 1150
+        type: time
+    - name: plc1_naive_mitm
+      type: naive_mitm
+      target: PLC1
+      offset: 7.0
+      trigger:
+        type: time
+        start: 1250
+        end: 1300
+
