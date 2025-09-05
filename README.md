@@ -1,3 +1,10 @@
+# Enhancing DHALSIM Thesis (SUTD/TU Delft project)
+A thesis project done on top of DHALSIM with the objective to enhance the functionality of DHALSIM. 
+
+The repo contains features such as:
+1. Physical-based anomaly detector and network-based anomaly detector
+2. Dashboard to display merged alerts from both physical-based anomaly detector and network-based anomaly detector
+
 # Digital HydrAuLic SIMulator (DHALSIM)
 _A Digital Twin for Water Distribution Systems. A work by the SUTD Critical Infrastructure Systems Lab, TU Delft Department of Water Management, CISPA, and iTrust_
 
@@ -7,13 +14,20 @@ DHALSIM was presented in the ICSS Workshop in ACSAC'20, with the paper: [Co-Simu
 
 Two papers in the Journal of Water Resources Planning and Management explain in detail DHALSIM architecture, features, and capabilities: [High-fidelity cyber and physical simulation of water distribution systems. I: Models and Data](https://ascelibrary.org/doi/abs/10.1061/JWRMD5.WRENG-5853) and [High-fidelity cyber and physical simulation of water distribution systems. II: Enabling cyber-physical attack localization](https://ascelibrary.org/doi/abs/10.1061/JWRMD5.WRENG-5854)
  
+
 ## Installation
 
-In order to offer a simple installation we have included an installation script which will install DHALSIM on an Ubuntu 20.04 machine. This script is located in the root of the repository and can be run with ```./install.sh```.
+In order to offer a simple installation we have included an installation script which will install DHALSIM on an Ubuntu 20.04 and 22.04 machine. This script is located in the root of the repository and can be run with ```./install.sh```. Root privilege is required.
 
-## Running
+Detector installation script is separated in the detector folder and can be run with ```./detector_setup.sh```
+
+## Running DHALSIM
 
 DHALSIM can be run using the command ```sudo dhalsim path/to/config.yaml```.
 
 Replacing the text between "< >" with the path to one example topology or your own configuration files. For example, for the anytown example, you'd use:
 ```sudo dhalsim <examples/anytown_topology/anytown_config.yaml>```
+
+## Running DHALSIM with detector
+
+DHALSIM with detector can be run using the command ```sudo ./dhalsim_monitor.sh path/to/config.yaml``` in detector folder which will run the script for running DHALSIM, Zeek logging, physical-based detector, network-based detector, and the dashboard.
