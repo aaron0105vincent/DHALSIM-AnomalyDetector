@@ -5,6 +5,12 @@ The repo contains features such as:
 1. Physical-based anomaly detector and network-based anomaly detector
 2. Dashboard to display merged alerts from both physical-based anomaly detector and network-based anomaly detector
 
+Related Works:
+[1] A. Murillo et al., ‘High-Fidelity Cyber and Physical Simulation of Water Distribution Systems. I: Models and Data’, Journal of Water Resources Planning and Management, vol. 149, no. 5, p. 04023009, May 2023, doi: 10.1061/JWRMD5.WRENG-5853.
+[2] A. Murillo, R. Taormina, N. O. Tippenhauer, and S. Galelli, ‘High-Fidelity Cyber and Physical Simulation of Water Distribution Systems. II: Enabling Cyber-Physical Attack Localization’, Journal of Water Resources Planning and Management, vol. 149, no. 5, p. 04023010, May 2023, doi: 10.1061/JWRMD5.WRENG-5854.
+[3] J.-P. Konijn, ‘Multi-domain Cyber-attack Detection in Industrial Control Systems’. Accessed: May 29, 2025. [Online]. Available: https://essay.utwente.nl/93236/
+
+
 # Digital HydrAuLic SIMulator (DHALSIM)
 _A Digital Twin for Water Distribution Systems. A work by the SUTD Critical Infrastructure Systems Lab, TU Delft Department of Water Management, CISPA, and iTrust_
 
